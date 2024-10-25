@@ -32,6 +32,39 @@
       content="black-translucent"
     />
     <link rel="manifest" href="./manifest.json" />
+    <style>
+      .lightbulb {
+        transition: all 0.3s ease;
+      }
+
+      .lightbulb.on {
+        filter: drop-shadow(0 0 10px rgba(255, 247, 200, 0.6))
+          drop-shadow(0 0 20px rgba(255, 240, 180, 0.4))
+          drop-shadow(0 0 30px rgba(255, 235, 160, 0.2));
+      }
+
+      @keyframes pulse {
+        0% {
+          filter: drop-shadow(0 0 10px rgba(255, 247, 200, 0.6))
+            drop-shadow(0 0 20px rgba(255, 240, 180, 0.4))
+            drop-shadow(0 0 30px rgba(255, 235, 160, 0.2));
+        }
+        50% {
+          filter: drop-shadow(0 0 12px rgba(255, 247, 200, 0.65))
+            drop-shadow(0 0 22px rgba(255, 240, 180, 0.45))
+            drop-shadow(0 0 32px rgba(255, 235, 160, 0.25));
+        }
+        100% {
+          filter: drop-shadow(0 0 10px rgba(255, 247, 200, 0.6))
+            drop-shadow(0 0 20px rgba(255, 240, 180, 0.4))
+            drop-shadow(0 0 30px rgba(255, 235, 160, 0.2));
+        }
+      }
+
+      .lightbulb.on {
+        animation: pulse 3s infinite;
+      }
+    </style>
   </head>
   <body>
     <script src="./main.js"></script>

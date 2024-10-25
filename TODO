@@ -1,3 +1,4 @@
 - [ ] Share outage schedules
 - [ ] Cache requests to cnel (fetch first, fallback on cache)
-- [ ] Lightning effect in lightbulb
+- [x] Lightning effect in lightbulb
+- [ ] App icons

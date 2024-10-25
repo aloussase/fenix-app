@@ -159,10 +159,10 @@ view model =
 viewLightBulb : Bool -> Html Msg
 viewLightBulb lightsOn =
     if lightsOn then
-        H.img [ HA.src "./assets/lightbulb.png", HA.width 200 ] []
+        H.img [ HA.src "./assets/lightbulb.png", HA.width 200, HA.class "lightbulb on" ] []
 
     else
-        H.img [ HA.src "./assets/lightbulb-off.png", HA.width 200 ] []
+        H.img [ HA.src "./assets/lightbulb-off.png", HA.width 200, HA.class "lightbulb" ] []
 
 
 viewAppBar : Html Msg
