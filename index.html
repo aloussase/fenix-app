@@ -72,7 +72,13 @@
     <script type="module" src="./db.js"></script>
     <div id="root"></div>
     <div class="snackbar" id="cached-data-snackbar">
-      Estás fuera de línea. Los datos mostrados son antiguos.
+      Estás fuera de línea, los datos mostrados son antiguos
+    </div>
+    <div class="snackbar" id="cant-share-snackbar">
+      Solo puedes compartir tu horario desde un dispositivo móvil
+    </div>
+    <div class="snackbar" id="copied-clipboard-snackbar">
+      El horario fue copiado al portapapeles
     </div>
     <script>
       if ("serviceWorker" in navigator) {
@@ -104,6 +110,27 @@
         db.getStoredDocumentNumber().then((document) => {
           console.debug(`loaded cached document number: ${document}`);
           app.ports.getStoredDocumentNumber.send(document);
+        });
+      });
+
+      app.ports.shareHorario.subscribe((serHorario) => {
+        if (
+          navigator.canShare &&
+          "share" in navigator &&
+          typeof navigator.share === "function"
+        ) {
+          navigator.share({
+            title: "Horario de corte",
+            text: serHorario,
+          });
+        } else {
+          ui("#cant-share-snackbar");
+        }
+      });
+
+      app.ports.copyHorario.subscribe((serHorario) => {
+        navigator.clipboard.writeText(serHorario).then(() => {
+          ui("#copied-clipboard-snackbar");
         });
       });
     </script>

@@ -791,7 +791,7 @@ ${variant}`;
   var VERSION = "2.0.0-beta.3";
   var TARGET_NAME = "dev";
   var INITIAL_ELM_COMPILED_TIMESTAMP = Number(
-    "1729898207970"
+    "1729899938435"
   );
   var ORIGINAL_COMPILATION_MODE = "debug";
   var ORIGINAL_BROWSER_UI_POSITION = "TopLeft";
@@ -14125,6 +14125,7 @@ var $author$project$Main$getStoredDocumentNumber = _Platform_incomingPort('getSt
 var $author$project$Main$subscriptions = function (_v0) {
 	return $author$project$Main$getStoredDocumentNumber($author$project$Msg$GotCachedDocumentNumber);
 };
+var $author$project$Main$copyHorario = _Platform_outgoingPort('copyHorario', $elm$json$Json$Encode$string);
 var $elm$json$Json$Encode$null = _Json_encodeNull;
 var $author$project$Main$getCachedDocumentNumber = _Platform_outgoingPort(
 	'getCachedDocumentNumber',
@@ -14474,6 +14475,15 @@ var $elm$core$List$head = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $author$project$Main$horarioToPlainText = function (horario) {
+	return $elm$core$String$concat(
+		_List_fromArray(
+			['Fecha desde: ' + horario.fechaCorte, '\n', 'Hora desde: ' + horario.horaDesde, '\n', 'Hora hasta:' + horario.horaHasta, '\n']));
+};
+var $author$project$Main$shareHorario = _Platform_outgoingPort('shareHorario', $elm$json$Json$Encode$string);
 var $author$project$Main$showSnackbar = _Platform_outgoingPort('showSnackbar', $elm$json$Json$Encode$string);
 var $author$project$Main$storeDocumentNumber = _Platform_outgoingPort('storeDocumentNumber', $elm$json$Json$Encode$string);
 var $author$project$Main$update = F2(
@@ -14504,6 +14514,18 @@ var $author$project$Main$update = F2(
 						model,
 						{criterio: criterio}),
 					$elm$core$Platform$Cmd$none);
+			case 'ShareHorario':
+				var horario = msg.a;
+				return _Utils_Tuple2(
+					model,
+					$author$project$Main$shareHorario(
+						$author$project$Main$horarioToPlainText(horario)));
+			case 'CopyHorario':
+				var horario = msg.a;
+				return _Utils_Tuple2(
+					model,
+					$author$project$Main$copyHorario(
+						$author$project$Main$horarioToPlainText(horario)));
 			case 'ToggleLight':
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -14895,6 +14917,12 @@ var $author$project$Main$viewForm = function (model) {
 					]))
 			]));
 };
+var $author$project$Msg$CopyHorario = function (a) {
+	return {$: 'CopyHorario', a: a};
+};
+var $author$project$Msg$ShareHorario = function (a) {
+	return {$: 'ShareHorario', a: a};
+};
 var $elm$html$Html$article = _VirtualDom_node('article');
 var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $author$project$Util$listPutIfEmpty = F2(
@@ -15044,6 +15072,48 @@ var $author$project$Main$viewHorariosCortes = function (horarios) {
 											_List_fromArray(
 												[
 													$elm$html$Html$text(horario.horaHasta)
+												]))
+										])),
+									A2(
+									$elm$html$Html$nav,
+									_List_Nil,
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$button,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('transparent'),
+													$elm$html$Html$Events$onClick(
+													$author$project$Msg$ShareHorario(horario))
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$i,
+													_List_Nil,
+													_List_fromArray(
+														[
+															$elm$html$Html$text('share')
+														]))
+												])),
+											A2(
+											$elm$html$Html$button,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('transparent'),
+													$elm$html$Html$Events$onClick(
+													$author$project$Msg$CopyHorario(horario))
+												]),
+											_List_fromArray(
+												[
+													A2(
+													$elm$html$Html$i,
+													_List_Nil,
+													_List_fromArray(
+														[
+															$elm$html$Html$text('content_paste')
+														]))
 												]))
 										]))
 								]));
@@ -15283,4 +15353,4 @@ var $author$project$Main$view = function (model) {
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Msg.Msg","aliases":{"Types.ApiResponse":{"args":[],"type":"Result.Result Types.ErrorResponse (List.List Types.InformacionCorteLuz)"},"Types.ErrorResponse":{"args":[],"type":"{ message : String.String }"},"Types.HorarioCorte":{"args":[],"type":"{ fechaCorte : String.String, horaDesde : String.String, horaHasta : String.String }"},"Types.InformacionCorteLuz":{"args":[],"type":"{ alimentador : String.String, cuentaContrato : String.String, cuenta : String.String, direccion : String.String, horarios : List.List Types.HorarioCorte }"}},"unions":{"Msg.Msg":{"args":[],"tags":{"GotApiResponse":["Result.Result Http.Error Types.ApiResponse"],"GotCachedDocumentNumber":["String.String"],"GetCachedDocumentNumber":[],"Submit":[],"UpdateDocumento":["String.String"],"UpdateCriterio":["Types.Criterio"],"ToggleLight":[]}},"Types.Criterio":{"args":[],"tags":{"CuentaContrato":[],"Cuen":[],"Identificacion":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"List.List":{"args":["a"],"tags":{}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Msg.Msg","aliases":{"Types.ApiResponse":{"args":[],"type":"Result.Result Types.ErrorResponse (List.List Types.InformacionCorteLuz)"},"Types.ErrorResponse":{"args":[],"type":"{ message : String.String }"},"Types.HorarioCorte":{"args":[],"type":"{ fechaCorte : String.String, horaDesde : String.String, horaHasta : String.String }"},"Types.InformacionCorteLuz":{"args":[],"type":"{ alimentador : String.String, cuentaContrato : String.String, cuenta : String.String, direccion : String.String, horarios : List.List Types.HorarioCorte }"}},"unions":{"Msg.Msg":{"args":[],"tags":{"GotApiResponse":["Result.Result Http.Error Types.ApiResponse"],"GotCachedDocumentNumber":["String.String"],"GetCachedDocumentNumber":[],"Submit":[],"ShareHorario":["Types.HorarioCorte"],"CopyHorario":["Types.HorarioCorte"],"UpdateDocumento":["String.String"],"UpdateCriterio":["Types.Criterio"],"ToggleLight":[]}},"Types.Criterio":{"args":[],"tags":{"CuentaContrato":[],"Cuen":[],"Identificacion":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"List.List":{"args":["a"],"tags":{}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}}}}})}});}(this));

@@ -23,6 +23,12 @@ port getStoredDocumentNumber : (String -> msg) -> Sub msg
 port getCachedDocumentNumber : () -> Cmd msg
 
 
+port shareHorario : String -> Cmd msg
+
+
+port copyHorario : String -> Cmd msg
+
+
 
 -- MAIN
 
@@ -83,6 +89,12 @@ update msg model =
         UpdateCriterio criterio ->
             ( { model | criterio = criterio }, Cmd.none )
 
+        ShareHorario horario ->
+            ( model, shareHorario <| horarioToPlainText horario )
+
+        CopyHorario horario ->
+            ( model, copyHorario <| horarioToPlainText horario )
+
         ToggleLight ->
             ( { model | lightsOn = not model.lightsOn }, Cmd.none )
 
@@ -103,6 +115,18 @@ update msg model =
 
         GotApiResponse (Err error) ->
             ( { model | errorServidor = Just <| getErrorMessage error, errorDocumento = Nothing }, showSnackbar "#snackbar" )
+
+
+horarioToPlainText : HorarioCorte -> String
+horarioToPlainText horario =
+    String.concat
+        [ "Fecha desde: " ++ horario.fechaCorte
+        , "\n"
+        , "Hora desde: " ++ horario.horaDesde
+        , "\n"
+        , "Hora hasta:" ++ horario.horaHasta
+        , "\n"
+        ]
 
 
 getErrorMessage : Http.Error -> String
@@ -267,6 +291,10 @@ viewHorariosCortes horarios =
                                 , H.div [ HA.class "s6" ] [ text horario.horaDesde ]
                                 , H.div [ HA.class "s6" ] [ text "Hasta" ]
                                 , H.div [ HA.class "s6" ] [ text horario.horaHasta ]
+                                ]
+                            , H.nav []
+                                [ H.button [ HA.class "transparent", HE.onClick (ShareHorario horario) ] [ H.i [] [ text "share" ] ]
+                                , H.button [ HA.class "transparent", HE.onClick (CopyHorario horario) ] [ H.i [] [ text "content_paste" ] ]
                                 ]
                             ]
                     )
