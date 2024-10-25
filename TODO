@@ -1,0 +1,3 @@
+- [ ] Share outage schedules
+- [ ] Cache requests to cnel (fetch first, fallback on cache)
+- [ ] Lightning effect in lightbulb

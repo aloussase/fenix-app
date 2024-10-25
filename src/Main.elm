@@ -114,6 +114,12 @@ getErrorMessage error =
         BadUrl msg ->
             msg
 
+        Timeout ->
+            "Pareces estar fuera de línea, ¿será porque no tienes luz?"
+
+        NetworkError ->
+            "Pareces estar fuera de línea, ¿será porque no tienes luz?"
+
         _ ->
             "Hubo un error al consultar el horario, por favor inténtalo más tarde"
 
@@ -209,7 +215,7 @@ viewErrorDocumento error =
 viewErrorServidor : Maybe String -> Html Msg
 viewErrorServidor error =
     error
-        |> Maybe.map (\msg -> H.div [ HA.class "snackbar error", HA.id "snackbar" ] [ text msg ])
+        |> Maybe.map (\msg -> H.div [ HA.class "snackbar", HA.id "snackbar" ] [ text msg ])
         |> Maybe.withDefault (text "")
 
 
