@@ -11,9 +11,16 @@ import Types exposing (Criterio(..), HorarioCorte, InformacionCorteLuz, displayC
 import Util
 
 
-{-| To show a snackbar using Beer CSS
--}
 port showSnackbar : String -> Cmd msg
+
+
+port storeDocumentNumber : String -> Cmd msg
+
+
+port getStoredDocumentNumber : (String -> msg) -> Sub msg
+
+
+port getCachedDocumentNumber : () -> Cmd msg
 
 
 
@@ -67,6 +74,12 @@ update msg model =
         UpdateDocumento documento ->
             ( { model | documento = documento }, Cmd.none )
 
+        GetCachedDocumentNumber ->
+            ( model, getCachedDocumentNumber () )
+
+        GotCachedDocumentNumber documento ->
+            ( { model | documento = documento }, Cmd.none )
+
         UpdateCriterio criterio ->
             ( { model | criterio = criterio }, Cmd.none )
 
@@ -86,7 +99,7 @@ update msg model =
                     ( { model | errorServidor = Just errorResponse.message, errorDocumento = Nothing }, showSnackbar "#snackbar" )
 
                 Ok informaciones ->
-                    ( { model | informacionCortes = List.head informaciones, errorDocumento = Nothing }, Cmd.none )
+                    ( { model | informacionCortes = List.head informaciones, errorDocumento = Nothing }, storeDocumentNumber model.documento )
 
         GotApiResponse (Err error) ->
             ( { model | errorServidor = Just <| getErrorMessage error, errorDocumento = Nothing }, showSnackbar "#snackbar" )
@@ -111,7 +124,7 @@ getErrorMessage error =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.none
+    getStoredDocumentNumber GotCachedDocumentNumber
 
 
 
@@ -160,14 +173,14 @@ viewForm : Model -> Html Msg
 viewForm model =
     H.fieldset []
         [ H.div [ HA.class "field border label", HA.classList [ ( "invalid", Util.isJust model.errorDocumento ) ] ]
-            [ H.input [ HE.onInput UpdateDocumento ] []
+            [ H.input [ HE.onInput UpdateDocumento, HA.value model.documento ] []
             , H.label [] [ H.text "Documento" ]
             , viewErrorDocumento model.errorDocumento
             , H.div [ HA.class "small-space" ] []
             ]
         , H.div [ HA.class "right-align" ]
             [ H.button
-                [ HA.class "border small no-margin" ]
+                [ HA.class "border small no-margin", HE.onClick GetCachedDocumentNumber ]
                 [ text "Cargar último documento usado" ]
             ]
         , H.div [ HA.class "small-space" ] []

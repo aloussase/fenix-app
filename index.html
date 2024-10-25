@@ -35,6 +35,7 @@
   </head>
   <body>
     <script src="./main.js"></script>
+    <script type="module" src="./db.js"></script>
     <div id="root"></div>
     <script>
       if ("serviceWorker" in navigator) {
@@ -49,6 +50,20 @@
       app.ports.showSnackbar.subscribe(function (selector) {
         ui(selector);
       });
+
+      app.ports.storeDocumentNumber.subscribe((documentNumber) => {
+        db.storeDocumentNumber(documentNumber).then(() =>
+          console.debug(`document number cached ${documentNumber}`)
+        );
+      });
+
+      app.ports.getCachedDocumentNumber.subscribe(() => {
+        db.getStoredDocumentNumber().then((document) => {
+          console.debug(`loaded cached document number: ${document}`);
+          app.ports.getStoredDocumentNumber.send(document);
+        });
+      });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/idb@8/build/umd.js"></script>
   </body>
 </html>

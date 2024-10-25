@@ -791,7 +791,7 @@ ${variant}`;
   var VERSION = "2.0.0-beta.3";
   var TARGET_NAME = "dev";
   var INITIAL_ELM_COMPILED_TIMESTAMP = Number(
-    "1729870960147"
+    "1729875772745"
   );
   var ORIGINAL_COMPILATION_MODE = "debug";
   var ORIGINAL_BROWSER_UI_POSITION = "TopLeft";
@@ -14118,11 +14118,19 @@ var $author$project$Main$init = function (_v0) {
 		{criterio: $author$project$Types$CuentaContrato, documento: '', errorDocumento: $elm$core$Maybe$Nothing, errorServidor: $elm$core$Maybe$Nothing, informacionCortes: $elm$core$Maybe$Nothing, lightsOn: false},
 		$elm$core$Platform$Cmd$none);
 };
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$Main$subscriptions = function (_v0) {
-	return $elm$core$Platform$Sub$none;
+var $author$project$Msg$GotCachedDocumentNumber = function (a) {
+	return {$: 'GotCachedDocumentNumber', a: a};
 };
+var $author$project$Main$getStoredDocumentNumber = _Platform_incomingPort('getStoredDocumentNumber', $elm$json$Json$Decode$string);
+var $author$project$Main$subscriptions = function (_v0) {
+	return $author$project$Main$getStoredDocumentNumber($author$project$Msg$GotCachedDocumentNumber);
+};
+var $elm$json$Json$Encode$null = _Json_encodeNull;
+var $author$project$Main$getCachedDocumentNumber = _Platform_outgoingPort(
+	'getCachedDocumentNumber',
+	function ($) {
+		return $elm$json$Json$Encode$null;
+	});
 var $author$project$Main$getErrorMessage = function (error) {
 	switch (error.$) {
 		case 'BadBody':
@@ -14463,10 +14471,22 @@ var $elm$core$List$head = function (list) {
 	}
 };
 var $author$project$Main$showSnackbar = _Platform_outgoingPort('showSnackbar', $elm$json$Json$Encode$string);
+var $author$project$Main$storeDocumentNumber = _Platform_outgoingPort('storeDocumentNumber', $elm$json$Json$Encode$string);
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'UpdateDocumento':
+				var documento = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{documento: documento}),
+					$elm$core$Platform$Cmd$none);
+			case 'GetCachedDocumentNumber':
+				return _Utils_Tuple2(
+					model,
+					$author$project$Main$getCachedDocumentNumber(_Utils_Tuple0));
+			case 'GotCachedDocumentNumber':
 				var documento = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -14518,7 +14538,7 @@ var $author$project$Main$update = F2(
 									errorDocumento: $elm$core$Maybe$Nothing,
 									informacionCortes: $elm$core$List$head(informaciones)
 								}),
-							$elm$core$Platform$Cmd$none);
+							$author$project$Main$storeDocumentNumber(model.documento));
 					}
 				} else {
 					var error = msg.a.a;
@@ -14610,6 +14630,7 @@ var $author$project$Main$viewErrorServidor = function (error) {
 			error));
 };
 var $author$project$Types$Cuen = {$: 'Cuen'};
+var $author$project$Msg$GetCachedDocumentNumber = {$: 'GetCachedDocumentNumber'};
 var $author$project$Types$Identificacion = {$: 'Identificacion'};
 var $author$project$Msg$Submit = {$: 'Submit'};
 var $author$project$Msg$UpdateCriterio = function (a) {
@@ -14717,7 +14738,8 @@ var $author$project$Main$viewForm = function (model) {
 						$elm$html$Html$input,
 						_List_fromArray(
 							[
-								$elm$html$Html$Events$onInput($author$project$Msg$UpdateDocumento)
+								$elm$html$Html$Events$onInput($author$project$Msg$UpdateDocumento),
+								$elm$html$Html$Attributes$value(model.documento)
 							]),
 						_List_Nil),
 						A2(
@@ -14748,7 +14770,8 @@ var $author$project$Main$viewForm = function (model) {
 						$elm$html$Html$button,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('border small no-margin')
+								$elm$html$Html$Attributes$class('border small no-margin'),
+								$elm$html$Html$Events$onClick($author$project$Msg$GetCachedDocumentNumber)
 							]),
 						_List_fromArray(
 							[
@@ -15232,4 +15255,4 @@ var $author$project$Main$view = function (model) {
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Msg.Msg","aliases":{"Types.ApiResponse":{"args":[],"type":"Result.Result Types.ErrorResponse (List.List Types.InformacionCorteLuz)"},"Types.ErrorResponse":{"args":[],"type":"{ message : String.String }"},"Types.HorarioCorte":{"args":[],"type":"{ fechaCorte : String.String, horaDesde : String.String, horaHasta : String.String }"},"Types.InformacionCorteLuz":{"args":[],"type":"{ alimentador : String.String, cuentaContrato : String.String, cuenta : String.String, direccion : String.String, horarios : List.List Types.HorarioCorte }"}},"unions":{"Msg.Msg":{"args":[],"tags":{"GotApiResponse":["Result.Result Http.Error Types.ApiResponse"],"Submit":[],"UpdateDocumento":["String.String"],"UpdateCriterio":["Types.Criterio"],"ToggleLight":[]}},"Types.Criterio":{"args":[],"tags":{"CuentaContrato":[],"Cuen":[],"Identificacion":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"List.List":{"args":["a"],"tags":{}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Msg.Msg","aliases":{"Types.ApiResponse":{"args":[],"type":"Result.Result Types.ErrorResponse (List.List Types.InformacionCorteLuz)"},"Types.ErrorResponse":{"args":[],"type":"{ message : String.String }"},"Types.HorarioCorte":{"args":[],"type":"{ fechaCorte : String.String, horaDesde : String.String, horaHasta : String.String }"},"Types.InformacionCorteLuz":{"args":[],"type":"{ alimentador : String.String, cuentaContrato : String.String, cuenta : String.String, direccion : String.String, horarios : List.List Types.HorarioCorte }"}},"unions":{"Msg.Msg":{"args":[],"tags":{"GotApiResponse":["Result.Result Http.Error Types.ApiResponse"],"GotCachedDocumentNumber":["String.String"],"GetCachedDocumentNumber":[],"Submit":[],"UpdateDocumento":["String.String"],"UpdateCriterio":["Types.Criterio"],"ToggleLight":[]}},"Types.Criterio":{"args":[],"tags":{"CuentaContrato":[],"Cuen":[],"Identificacion":[]}},"Http.Error":{"args":[],"tags":{"BadUrl":["String.String"],"Timeout":[],"NetworkError":[],"BadStatus":["Basics.Int"],"BadBody":["String.String"]}},"List.List":{"args":["a"],"tags":{}},"Result.Result":{"args":["error","value"],"tags":{"Ok":["value"],"Err":["error"]}},"String.String":{"args":[],"tags":{"String":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}}}}})}});}(this));
