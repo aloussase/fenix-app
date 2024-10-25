@@ -35,12 +35,12 @@
     <base href="/fenix-app" />
   </head>
   <body>
-    <script src="/fenix-app/build/main.js"></script>
+    <script src="./build/main.js"></script>
     <div id="root"></div>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
-          .register("/sw.js")
+          .register("./sw.js")
           .then((registration) => console.log("service worker registered"))
           .catch((err) => console.error(err));
       }
