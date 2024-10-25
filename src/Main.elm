@@ -245,5 +245,11 @@ viewHorariosCortes horarios =
                                 ]
                             ]
                     )
+                |> Util.listPutIfEmpty
+                    (H.div [ HA.class "center-align" ]
+                        [ H.div [ HA.class "space" ] []
+                        , H.div [] [ text "No hay horarios planificados" ]
+                        ]
+                    )
             )
         )
