@@ -9,3 +9,4 @@ type Msg
     | Submit
     | UpdateDocumento String
     | UpdateCriterio Criterio
+    | ToggleLight

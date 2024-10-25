@@ -40,6 +40,7 @@ type alias Model =
     , criterio : Criterio
     , informacionCortes : Maybe InformacionCorteLuz
     , errorServidor : Maybe String
+    , lightsOn : Bool
     }
 
 
@@ -50,6 +51,7 @@ init _ =
       , criterio = CuentaContrato
       , informacionCortes = Nothing
       , errorServidor = Nothing
+      , lightsOn = False
       }
     , Cmd.none
     )
@@ -67,6 +69,9 @@ update msg model =
 
         UpdateCriterio criterio ->
             ( { model | criterio = criterio }, Cmd.none )
+
+        ToggleLight ->
+            ( { model | lightsOn = not model.lightsOn }, Cmd.none )
 
         Submit ->
             if String.isEmpty model.documento then
@@ -118,7 +123,7 @@ view model =
     H.div []
         [ viewAppBar
         , H.main_ [ HA.class "responsive" ]
-            [ H.div [ HA.class "center-align" ] [ H.img [ HA.src "assets/lightbulb-off.png", HA.width 200 ] [] ]
+            [ H.div [ HA.class "center-align", HE.onClick ToggleLight ] [ viewLightBulb model.lightsOn ]
             , H.h5 [ HA.class "small center-align" ] [ text "Consulta tu horario de corte de luz" ]
             , viewForm model
             , H.div [ HA.class "space" ] []
@@ -130,6 +135,15 @@ view model =
             ]
         , viewErrorServidor model.errorServidor
         ]
+
+
+viewLightBulb : Bool -> Html Msg
+viewLightBulb lightsOn =
+    if lightsOn then
+        H.img [ HA.src "assets/lightbulb.png", HA.width 200 ] []
+
+    else
+        H.img [ HA.src "assets/lightbulb-off.png", HA.width 200 ] []
 
 
 viewAppBar : Html Msg
