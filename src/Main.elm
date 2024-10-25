@@ -7,7 +7,7 @@ import Html.Attributes as HA
 import Html.Events as HE
 import Http exposing (Error(..))
 import Msg exposing (Msg(..))
-import Types exposing (Criterio(..), InformacionCorteLuz, displayCriterio, getCriterioValue, parseCriterio)
+import Types exposing (Criterio(..), HorarioCorte, InformacionCorteLuz, displayCriterio, getCriterioValue, parseCriterio)
 import Util
 
 
@@ -121,6 +121,12 @@ view model =
             [ H.div [ HA.class "center-align" ] [ H.img [ HA.src "assets/lightbulb-off.png", HA.width 200 ] [] ]
             , H.h5 [ HA.class "small center-align" ] [ text "Consulta tu horario de corte de luz" ]
             , viewForm model
+            , H.div [ HA.class "space" ] []
+            , model.informacionCortes |> Maybe.map viewInformacionCuenta |> Maybe.withDefault (text "")
+            , H.div [ HA.class "space" ] []
+            , model.informacionCortes
+                |> Maybe.map (\info -> viewHorariosCortes info.horarios)
+                |> Maybe.withDefault (text "")
             ]
         , viewErrorServidor model.errorServidor
         ]
@@ -178,3 +184,52 @@ viewErrorServidor error =
     error
         |> Maybe.map (\msg -> H.div [ HA.class "snackbar error", HA.id "snackbar" ] [ text msg ])
         |> Maybe.withDefault (text "")
+
+
+viewInformacionCuenta : InformacionCorteLuz -> Html Msg
+viewInformacionCuenta info =
+    H.div []
+        [ H.div [ HA.class "horizontal center-align middle-align grid primary-text" ]
+            [ H.hr [ HA.class "small s4" ] []
+            , H.span [ HA.class "s4" ] [ text "Información" ]
+            , H.hr [ HA.class "small s4" ] []
+            ]
+        , H.div [ HA.class "grid" ]
+            [ H.div [ HA.class "s6" ] [ text "Alimentador" ]
+            , H.div [ HA.class "s6" ] [ text info.alimentador ]
+            , H.div [ HA.class "s6" ] [ text "Cuenta" ]
+            , H.div [ HA.class "s6" ] [ text info.cuenta ]
+            , H.div [ HA.class "s6" ] [ text "Contrato" ]
+            , H.div [ HA.class "s6" ] [ text info.cuentaContrato ]
+            , H.div [ HA.class "s6" ] [ text "Dirección" ]
+            , H.div [ HA.class "s6" ] [ text info.direccion ]
+            ]
+        ]
+
+
+viewHorariosCortes : List HorarioCorte -> Html Msg
+viewHorariosCortes horarios =
+    H.div []
+        (List.append
+            [ H.div [ HA.class "horizontal center-align middle-align grid primary-text" ]
+                [ H.hr [ HA.class "small s4" ] []
+                , H.span [ HA.class "s4" ] [ text "Horarios" ]
+                , H.hr [ HA.class "small s4" ] []
+                ]
+            ]
+            (horarios
+                |> List.map
+                    (\horario ->
+                        H.article []
+                            [ H.div [ HA.class "grid" ]
+                                [ H.div [ HA.class "s6" ] [ text "Fecha" ]
+                                , H.div [ HA.class "s6" ] [ text horario.fechaCorte ]
+                                , H.div [ HA.class "s6" ] [ text "Desde" ]
+                                , H.div [ HA.class "s6" ] [ text horario.horaDesde ]
+                                , H.div [ HA.class "s6" ] [ text "Hasta" ]
+                                , H.div [ HA.class "s6" ] [ text horario.horaHasta ]
+                                ]
+                            ]
+                    )
+            )
+        )
