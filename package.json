@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "npx elm-watch make --optimized",
+    "build": "npx elm-watch make --optimize",
     "dev": "npx elm-watch hot"
   },
   "devDependencies": {
