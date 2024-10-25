@@ -1,13 +1,14 @@
 const CACHE_NAME = "fenix-app-cache-v6";
 const CACHED_URLS = [
   // HTML
-  "./",
-  "./index.html",
+  "/",
+  "/index.html",
   // Images
-  "./assets/lightbulb.png",
-  "./assets/lightbulb-off.png",
+  "/assets/lightbulb.png",
+  "/assets/lightbulb-off.png",
   // Scripts
-  "./build/main.js",
+  "/main.js",
+  "/db.js",
   // StyleSheets
   "https://cdn.jsdelivr.net/npm/beercss@3.7.10/dist/cdn/beer.min.css",
   "https://cdn.jsdelivr.net/npm/beercss@3.7.10/dist/cdn/beer.min.js",
