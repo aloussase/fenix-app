@@ -42,12 +42,35 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
+
   if (CACHED_URLS.some((u) => url.pathname.endsWith(u))) {
     return event.respondWith(
       caches.open(CACHE_NAME).then((cache) => {
         return cache.match(event.request).then((response) => {
           return response || fetch(event.request);
         });
+      })
+    );
+  }
+
+  if (url.host === "api.cnelep.gob.ec") {
+    return event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        return fetch(event.request)
+          .then((response) => {
+            cache.put(event.request, response.clone());
+            return response;
+          })
+          .catch(() => {
+            return self.clients
+              .get(event.clientId)
+              .then((client) =>
+                client.postMessage({
+                  action: "got-cached-data",
+                })
+              )
+              .then(() => cache.match(event.request));
+          });
       })
     );
   }

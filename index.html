@@ -71,12 +71,21 @@
     <script src="./main.js"></script>
     <script type="module" src="./db.js"></script>
     <div id="root"></div>
+    <div class="snackbar" id="cached-data-snackbar">
+      Estás fuera de línea. Los datos mostrados son antiguos.
+    </div>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
           .register("./sw.js")
           .then((registration) => console.log("service worker registered"))
           .catch((err) => console.error(err));
+
+        navigator.serviceWorker.addEventListener("message", (event) => {
+          if (event.data.action === "got-cached-data") {
+            ui("#cached-data-snackbar");
+          }
+        });
       }
 
       const app = Elm.Main.init({ node: document.getElementById("root") });
