@@ -170,7 +170,13 @@ viewAppBar =
     H.header []
         [ H.nav []
             [ H.h5 [ HA.class "max" ] [ text "Cortes de luz" ]
-            , H.button [ HA.class "circle transparent" ] [ H.i [] [ text "more_vert" ] ]
+            , H.button
+                [ HA.class "circle transparent" ]
+                [ H.i [] [ text "more_vert" ]
+                , H.menu
+                    [ HA.class "no-wrap" ]
+                    [ H.a [ HA.href "https://github.com/aloussase/fenix-app", HA.target "_blank" ] [ text "GitHub" ] ]
+                ]
             ]
         ]
 

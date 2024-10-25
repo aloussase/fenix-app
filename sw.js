@@ -3,6 +3,8 @@ const CACHED_URLS = [
   // HTML
   "/",
   "/index.html",
+  // Styles
+  "/theme.css",
   // Images
   "/assets/lightbulb.png",
   "/assets/lightbulb-off.png",
