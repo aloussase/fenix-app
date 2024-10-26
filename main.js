@@ -791,7 +791,7 @@ ${variant}`;
   var VERSION = "2.0.0-beta.3";
   var TARGET_NAME = "dev";
   var INITIAL_ELM_COMPILED_TIMESTAMP = Number(
-    "1729900470098"
+    "1729901701549"
   );
   var ORIGINAL_COMPILATION_MODE = "debug";
   var ORIGINAL_BROWSER_UI_POSITION = "TopLeft";
@@ -14637,7 +14637,7 @@ var $author$project$Main$viewAppBar = A2(
 							$elm$html$Html$menu,
 							_List_fromArray(
 								[
-									$elm$html$Html$Attributes$class('no-wrap')
+									$elm$html$Html$Attributes$class('no-wrap left')
 								]),
 							_List_fromArray(
 								[

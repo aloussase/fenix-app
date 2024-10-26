@@ -198,7 +198,7 @@ viewAppBar =
                 [ HA.class "circle transparent" ]
                 [ H.i [] [ text "more_vert" ]
                 , H.menu
-                    [ HA.class "no-wrap" ]
+                    [ HA.class "no-wrap left" ]
                     [ H.a [ HA.href "https://github.com/aloussase/fenix-app", HA.target "_blank" ] [ text "GitHub" ] ]
                 ]
             ]
