@@ -2,16 +2,11 @@
   "short_name": "Fénix App",
   "name": "Fénix App Consultar tu Horario de Corte",
   "description": "Una aplicacicón para que puedas consultar tu horario de corte de energía, con funcionalidad offline",
-  "start_url": "/?utm_source=pwa",
+  "start_url": "/",
   "display": "fullscreen",
   "icons": [
     {
-      "src": "/img/app-icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "/img/app-icon-512.png",
+      "src": "/assets/logo-fenix.png",
       "type": "image/png",
       "sizes": "512x512"
     }
