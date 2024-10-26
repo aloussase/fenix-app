@@ -242,6 +242,11 @@ viewErrorDocumento error =
         |> Maybe.withDefault (text "")
 
 
+
+-- TODO: This makes it so that only after the first error the snackbar is rendered, thus the first error is not shown
+-- because the command fires before the UI is updated and the snackbar element is mounted.
+
+
 viewErrorServidor : Maybe String -> Html Msg
 viewErrorServidor error =
     error

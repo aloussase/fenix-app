@@ -1,4 +1,4 @@
-const CACHE_NAME = "fenix-app-cache-v7";
+const CACHE_NAME = "fenix-app-cache-v8";
 const CACHED_URLS = [
   // HTML
   "/",
