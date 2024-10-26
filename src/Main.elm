@@ -165,7 +165,7 @@ view : Model -> Html Msg
 view model =
     H.div []
         [ viewAppBar
-        , H.main_ [ HA.class "responsive" ]
+        , H.main_ []
             [ H.div [ HA.class "center-align", HE.onClick ToggleLight ] [ viewLightBulb model.lightsOn ]
             , H.h5 [ HA.class "small center-align" ] [ text "Consulta tu horario de corte de luz" ]
             , viewForm model

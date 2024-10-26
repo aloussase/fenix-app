@@ -7159,10 +7159,7 @@ var $author$project$Main$view = function (model) {
 				$author$project$Main$viewAppBar,
 				A2(
 				$elm$html$Html$main_,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('responsive')
-					]),
+				_List_Nil,
 				_List_fromArray(
 					[
 						A2(
