@@ -1,5 +1,5 @@
 - [x] Share outage schedules
 - [x] Cache requests to cnel (fetch first, fallback on cache)
 - [x] Lightning effect in lightbulb
-- [ ] App icons
+- [x] App icons
 - [ ] UI tests with Cypress
